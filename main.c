@@ -7,10 +7,13 @@ int main(int argc, char **argv){
   printf("Checking the parentheses in argv arguments\n");
   int i,N,j;
   int check=0;
+  char inpop;
   
   Stack s;
   s.size=0;
   s.top=NULL;
+
+  //cannot use ()
  
   for(i=1;i<argc;i++)
   {
@@ -25,15 +28,34 @@ int main(int argc, char **argv){
         case '[':
           push(&s,'[');
           break;
+
+        case ']':
+          inpop = pop(&s);
+          if(inpop != '[')
+          {
+          check++;
+          }
+          break;
+
+        case '}':
+          inpop = pop(&s);
+          if(inpop !='{')
+          {
+          check++;
+          }
+          break;
        }
        if(check!=0) break;
-       /* Use stack to help with the parentheses*/
      }
+    printf("\nThe size is : %d and check : %d\n",s.size,check);
      if(s.size>0||check!=0)
      {
        printf("The parentheses do not match for %s\n",argv[i]);
      }
-     else printf("The parenthese match successfully for %s\n",argv[i]);
+     else 
+     {
+       printf("The parenthese match successfully for %s\n",argv[i]);
+     }
      check=0;
      pop_all(&s);
   }
